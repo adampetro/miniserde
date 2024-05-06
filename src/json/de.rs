@@ -243,6 +243,81 @@ impl<'a, 'b> Deserializer<'a, 'b> {
         self.buffer.clear();
 
         loop {
+            while self.pos + 16 < self.input.len() {
+                let next_16 = &self.input[self.pos..self.pos + 16];
+                if !ESCAPE[usize::from(next_16[0])] {
+                    if !ESCAPE[usize::from(next_16[1])] {
+                        if !ESCAPE[usize::from(next_16[2])] {
+                            if !ESCAPE[usize::from(next_16[3])] {
+                                if !ESCAPE[usize::from(next_16[4])] {
+                                    if !ESCAPE[usize::from(next_16[5])] {
+                                        if !ESCAPE[usize::from(next_16[6])] {
+                                            if !ESCAPE[usize::from(next_16[7])] {
+                                                if !ESCAPE[usize::from(next_16[8])] {
+                                                    if !ESCAPE[usize::from(next_16[9])] {
+                                                        if !ESCAPE[usize::from(next_16[10])] {
+                                                            if !ESCAPE[usize::from(next_16[11])] {
+                                                                if !ESCAPE[usize::from(next_16[12])]
+                                                                {
+                                                                    if !ESCAPE
+                                                                        [usize::from(next_16[13])]
+                                                                    {
+                                                                        if !ESCAPE[usize::from(
+                                                                            next_16[14],
+                                                                        )] {
+                                                                            if !ESCAPE[usize::from(
+                                                                                next_16[15],
+                                                                            )] {
+                                                                                self.pos += 16;
+                                                                                continue;
+                                                                            }
+                                                                            self.pos += 15;
+                                                                            break;
+                                                                        }
+                                                                        self.pos += 14;
+                                                                        break;
+                                                                    }
+                                                                    self.pos += 13;
+                                                                    break;
+                                                                }
+                                                                self.pos += 12;
+                                                                break;
+                                                            }
+                                                            self.pos += 11;
+                                                            break;
+                                                        }
+                                                        self.pos += 10;
+                                                        break;
+                                                    }
+                                                    self.pos += 9;
+                                                    break;
+                                                }
+                                                self.pos += 8;
+                                                break;
+                                            }
+                                            self.pos += 7;
+                                            break;
+                                        }
+                                        self.pos += 6;
+                                        break;
+                                    }
+                                    self.pos += 5;
+                                    break;
+                                }
+                                self.pos += 4;
+                                break;
+                            }
+                            self.pos += 3;
+                            break;
+                        }
+                        self.pos += 2;
+                        break;
+                    }
+                    self.pos += 1;
+                    break;
+                }
+                break;
+            }
             while self.pos < self.input.len() && !ESCAPE[usize::from(self.input[self.pos])] {
                 self.pos += 1;
             }
@@ -366,6 +441,85 @@ impl<'a, 'b> Deserializer<'a, 'b> {
 
     fn parse_whitespace(&mut self) -> Option<u8> {
         loop {
+            while self.pos + 16 < self.input.len() {
+                let next_16 = &self.input[self.pos..self.pos + 16];
+                if WHITESPACE[usize::from(next_16[0])] {
+                    if WHITESPACE[usize::from(next_16[1])] {
+                        if WHITESPACE[usize::from(next_16[2])] {
+                            if WHITESPACE[usize::from(next_16[3])] {
+                                if WHITESPACE[usize::from(next_16[4])] {
+                                    if WHITESPACE[usize::from(next_16[5])] {
+                                        if WHITESPACE[usize::from(next_16[6])] {
+                                            if WHITESPACE[usize::from(next_16[7])] {
+                                                if WHITESPACE[usize::from(next_16[8])] {
+                                                    if WHITESPACE[usize::from(next_16[9])] {
+                                                        if WHITESPACE[usize::from(next_16[10])] {
+                                                            if WHITESPACE[usize::from(next_16[11])]
+                                                            {
+                                                                if WHITESPACE
+                                                                    [usize::from(next_16[12])]
+                                                                {
+                                                                    if WHITESPACE
+                                                                        [usize::from(next_16[13])]
+                                                                    {
+                                                                        if WHITESPACE[usize::from(
+                                                                            next_16[14],
+                                                                        )] {
+                                                                            if WHITESPACE
+                                                                                [usize::from(
+                                                                                    next_16[15],
+                                                                                )]
+                                                                            {
+                                                                                self.pos += 16;
+                                                                                continue;
+                                                                            }
+                                                                            self.pos += 15;
+                                                                            break;
+                                                                        }
+                                                                        self.pos += 14;
+                                                                        break;
+                                                                    }
+                                                                    self.pos += 13;
+                                                                    break;
+                                                                }
+                                                                self.pos += 12;
+                                                                break;
+                                                            }
+                                                            self.pos += 11;
+                                                            break;
+                                                        }
+                                                        self.pos += 10;
+                                                        break;
+                                                    }
+                                                    self.pos += 9;
+                                                    break;
+                                                }
+                                                self.pos += 8;
+                                                break;
+                                            }
+                                            self.pos += 7;
+                                            break;
+                                        }
+                                        self.pos += 6;
+                                        break;
+                                    }
+                                    self.pos += 5;
+                                    break;
+                                }
+                                self.pos += 4;
+                                break;
+                            }
+                            self.pos += 3;
+                            break;
+                        }
+                        self.pos += 2;
+                        break;
+                    }
+                    self.pos += 1;
+                    break;
+                }
+                break;
+            }
             match self.peek() {
                 Some(b' ' | b'\n' | b'\t' | b'\r') => {
                     self.bump();
@@ -715,3 +869,12 @@ static ESCAPE: [bool; 256] = [
      O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O, // E
      O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O,  O, // F
 ];
+
+static WHITESPACE: [bool; 256] = {
+    let mut ws = [false; 256];
+    ws[b' ' as usize] = true;
+    ws[b'\n' as usize] = true;
+    ws[b'\t' as usize] = true;
+    ws[b'\r' as usize] = true;
+    ws
+};
